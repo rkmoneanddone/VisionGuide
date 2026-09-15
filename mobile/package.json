@@ -15,7 +15,8 @@
     "@react-native-firebase/firestore": "^23.3.0",
     "@react-native-google-signin/google-signin": "^16.0.0",
     "react": "19.1.1",
-    "react-native": "0.82.0"
+    "react-native": "0.82.0",
+    "react-native-image-picker": "^8.2.1"
   },
   "devDependencies": {
     "@react-native-community/cli": "latest",
