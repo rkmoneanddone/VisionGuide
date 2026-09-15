@@ -12,7 +12,7 @@ class MainApplication : Application(), ReactApplication {
         getDefaultReactHost(
             context = applicationContext,
             packageList = PackageList(this).packages.apply {
-                // Packages that cannot be autolinked can be added here.
+                add(VisionGuideTtsPackage())
             },
         )
     }
