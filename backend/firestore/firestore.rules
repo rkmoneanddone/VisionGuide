@@ -17,6 +17,9 @@ service cloud.firestore {
           'displayName',
           'preferredLanguage',
           'speechRate',
+          'defaultListeningLanguage',
+          'defaultScanMode',
+          'setupCompleted',
           'createdAt',
           'updatedAt'
         ]);
@@ -25,6 +28,9 @@ service cloud.firestore {
           'displayName',
           'preferredLanguage',
           'speechRate',
+          'defaultListeningLanguage',
+          'defaultScanMode',
+          'setupCompleted',
           'updatedAt'
         ]);
       allow delete: if false;
