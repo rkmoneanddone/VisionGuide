@@ -11,7 +11,9 @@ function mapUser(user: FirebaseAuthTypes.User): AuthUser {
   };
 }
 
-GoogleSignin.configure();
+GoogleSignin.configure({
+  webClientId: '468630156309-3jrd2i7858ckj34kv5a7e2gjtbf1p00d.apps.googleusercontent.com',
+});
 
 /** Firebase-backed identity service. */
 export class FirebaseAuthService implements AuthService {
