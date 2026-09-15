@@ -1,16 +1,13 @@
-import auth from '@react-native-firebase/auth';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {AuthService, AuthUser, PhoneChallenge} from './AuthService';
 
-function mapUser(user: {uid: string; displayName: string | null; phoneNumber: string | null; email: string | null}): AuthUser {
+function mapUser(user: FirebaseAuthTypes.User): AuthUser {
   return {uid: user.uid, displayName: user.displayName, phoneNumber: user.phoneNumber, email: user.email};
 }
 
-/**
- * Firebase-backed identity service. Google credential acquisition is kept
- * outside this class because it belongs to the native Google Sign-In adapter.
- */
+/** Firebase-backed identity service. Google credential acquisition is handled by its native adapter. */
 export class FirebaseAuthService implements Omit<AuthService, 'signInWithGoogle'> {
-  private confirmations = new Map<string, Awaited<ReturnType<typeof auth.prototype.signInWithPhoneNumber>>>();
+  private confirmations = new Map<string, FirebaseAuthTypes.ConfirmationResult>();
 
   getCurrentUser(): AuthUser | null {
     const user = auth().currentUser;
