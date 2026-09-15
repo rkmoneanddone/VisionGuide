@@ -1,8 +1,10 @@
 {
-  "name": "visionguide-mobile",
+  "name": "VisionGuide",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "android": "react-native run-android",
+    "start": "react-native start",
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx"
@@ -15,6 +17,10 @@
     "react-native": "0.82.0"
   },
   "devDependencies": {
+    "@react-native-community/cli": "latest",
+    "@react-native-community/cli-platform-android": "latest",
+    "@react-native/babel-preset": "0.82.0",
+    "@react-native/metro-config": "0.82.0",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.1.16",
     "typescript": "^5.9.2",
