@@ -1,4 +1,5 @@
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {AuthService, AuthUser, PhoneChallenge} from './AuthService';
 
 function mapUser(user: FirebaseAuthTypes.User): AuthUser {
@@ -10,13 +11,29 @@ function mapUser(user: FirebaseAuthTypes.User): AuthUser {
   };
 }
 
-/** Firebase-backed identity service. Google credential acquisition is handled by its native adapter. */
-export class FirebaseAuthService implements Omit<AuthService, 'signInWithGoogle'> {
+GoogleSignin.configure();
+
+/** Firebase-backed identity service. */
+export class FirebaseAuthService implements AuthService {
   private confirmations = new Map<string, FirebaseAuthTypes.ConfirmationResult>();
 
   getCurrentUser(): AuthUser | null {
     const user = auth().currentUser;
     return user ? mapUser(user) : null;
+  }
+
+  async signInWithGoogle(): Promise<AuthUser> {
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    const result = await GoogleSignin.signIn();
+    const idToken = result.data?.idToken;
+
+    if (!idToken) {
+      throw new Error('Google did not return an ID token. Check the Firebase Google sign-in configuration.');
+    }
+
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    const credential = await auth().signInWithCredential(googleCredential);
+    return mapUser(credential.user);
   }
 
   async requestPhoneOtp(phoneNumber: string): Promise<PhoneChallenge> {
@@ -41,7 +58,7 @@ export class FirebaseAuthService implements Omit<AuthService, 'signInWithGoogle'
     this.confirmations.delete(challenge.verificationId);
 
     if (!credential?.user) {
-      throw new Error('Unable to complete phone sign-in.');
+      throw new Error('Unable to complete phone verification.');
     }
 
     return mapUser(credential.user);
@@ -49,5 +66,6 @@ export class FirebaseAuthService implements Omit<AuthService, 'signInWithGoogle'
 
   async signOut(): Promise<void> {
     await auth().signOut();
+    await GoogleSignin.signOut();
   }
 }
