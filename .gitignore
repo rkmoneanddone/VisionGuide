@@ -1,0 +1,26 @@
+# Node
+node_modules/
+mobile/node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# React Native / Android
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/local.properties
+mobile/android/app/google-services.json
+*.keystore
+*.jks
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+*service-account*.json
